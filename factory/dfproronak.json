@@ -1,0 +1,15 @@
+{
+	"name": "dfproronak",
+	"properties": {
+		"trustModeClaimForMi": {
+			"value": "Disabled",
+			"editable": true
+		}
+	},
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "a4f437e6-bca9-49d0-ac27-25e361ada9c0",
+		"tenantId": "dc14c37f-3ee8-476a-a2fa-1e44f688c7fe"
+	}
+}

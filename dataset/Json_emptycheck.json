@@ -1,0 +1,21 @@
+{
+	"name": "Json_emptycheck",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_storage",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "empty.json",
+				"folderPath": "monitor",
+				"fileSystem": "source"
+			}
+		},
+		"schema": {}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

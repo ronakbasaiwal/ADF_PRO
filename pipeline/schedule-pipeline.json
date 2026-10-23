@@ -1,0 +1,62 @@
+{
+	"name": "schedule-pipeline",
+	"properties": {
+		"activities": [
+			{
+				"name": "ingestion",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "ingestion-pipeline",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"schema": "dbo",
+						"table": "orders"
+					}
+				}
+			},
+			{
+				"name": "Alerts",
+				"type": "WebActivity",
+				"dependsOn": [
+					{
+						"activity": "ingestion",
+						"dependencyConditions": [
+							"Succeeded",
+							"Failed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "POST",
+					"url": {
+						"value": "https://prod-09.northcentralus.logic.azure.com:443/workflows/9f9b325cc4964f1d8cb62cc0d3f5c91f/triggers/When_an_HTTP_request_is_received/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2FWhen_an_HTTP_request_is_received%2Frun&sv=1.0&sig=P7oJoDMFaLAoLmM1VetVD3EyBIEq4XKcD1O6t-DaSuQ",
+						"type": "Expression"
+					},
+					"body": {
+						"value": "{\"pipeline_name\":\"@{pipeline().Pipeline}\",\n \"pipeline_runId\":\"@{pipeline().RunId}\"}",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2026-10-23T11:36:41Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
